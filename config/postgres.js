@@ -20,8 +20,8 @@ const connectDB = async (createTables = true) => {
             const client = await pool.connect();
 
             try {
-                const createStudentsTable = (await import('../db/student.model.js')).default;
-                const createPaymentsTable = (await import('../db/payment.model.js')).default;
+                const createStudentsTable = (await import('../src/db/student.model.js')).default;
+                const createPaymentsTable = (await import('../src/db/payment.model.js')).default;
 
                 await client.query(createStudentsTable);
                 console.log('Students table ensured');
