@@ -10,7 +10,7 @@ const createStudentsTable = `
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-Index on enrollment_status for faster queries
+-- Index on enrollment_status for faster queries
 CREATE INDEX IF NOT EXISTS idx_enrollment_status ON students (enrollment_status);
 
 `;

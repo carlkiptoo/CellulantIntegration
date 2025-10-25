@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS payments (
     payment_date TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
-Index on transaction_id for faster queries
+-- Index on transaction_id for faster queries
 CREATE INDEX IF NOT EXISTS idx_payment_method ON payments (payment_method);
 CREATE INDEX IF NOT EXISTS idx_payment_status ON payments (status);
     `;
