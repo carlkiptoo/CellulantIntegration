@@ -1,0 +1,46 @@
+# ------------------------------------
+# 1. DEPENDENCIES (Critical)
+# ------------------------------------
+# Node module folders
+node_modules
+/npm-debug.log
+/yarn-error.log
+
+# ------------------------------------
+# 2. ENVIRONMENT AND SECRETS (CRITICAL)
+# ------------------------------------
+# Do NOT commit secrets (e.g., database passwords, API keys)
+.env
+.env.local
+.DS_Store
+
+# ------------------------------------
+# 3. LOGS, OUTPUTS, AND CACHE
+# ------------------------------------
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Runtime and build artifacts
+/dist
+/build
+/tmp
+
+# ------------------------------------
+# 4. OS AND EDITOR FILES
+# ------------------------------------
+# macOS system files
+.DS_Store
+.localized
+
+# Vim and IDE files
+*.swp
+.vscode/
+
+# ------------------------------------
+# 5. POSTGRESQL & REDIS SPECIFIC
+# ------------------------------------
+# Any local DB dump files or temporary backups
+*.sql
+*.dump
