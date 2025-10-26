@@ -1,15 +1,25 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const verifyApiKey = (req, res, next) => {
-    const apiKey = req.headers['x-api-key'] || req.query.api_key;
+export const verifyBearerToken = (req, res, next) => {
+    const authHeader = req.get('Authorization');
+   
 
-    if (!apiKey || apiKey !== process.env.CELLULANT_API_KEY) {
-        console.warn(`Unauthorized attempt with invalid API key: ${apiKey}`);
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        console.warn(`Unauthorized attempt with invalid API key: ${authHeader}`);
         return res.status(401).json({
             success: false,
-            message: 'Unauthorized attempt with invalid API key',
+            message: 'Missing Authorization header',
         })
+    }
+    const token = authHeader.split(' ')[1];
+    if (token !== process.env.CELLULANT_BEARER_TOKEN) {
+        console.warn(`Unauthorized attempt with invalid token: ${token}`);
+        return res.status(401).json({
+            success: false,
+            message: 'Unauthorized attempt with invalid token',
+        });
     }
     next();
 }

@@ -3,9 +3,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import config  from '../config/index.js';
 import logger from './utils/logger.js';
-// import routerV1 from './routes/v1/index.js';
+import routerV1 from './api/v1/router.js';
 import errorMiddleware from './middleware/error.middleware.js';
-
+import testRouter from '../test/routes.js';
 const app = express();
 
 app.use(cors());
@@ -19,9 +19,9 @@ app.use((req, res, next) => {
     next();
 })
 
-// app.use('/api/v1', routerV1);
+app.use('/api/v1', routerV1);
 
-// app.use('/debug', testRouter);
+app.use('/debug', testRouter);
 
 app.get('/health', (req, res) => {
     res.status(200).json({
