@@ -1,4 +1,4 @@
-# Makini University — Cellulant Payment Integration Service(MOCK)
+# Makini University - Cellulant Payment Integration Service(MOCK)
 
 A secure, fault-tolerant, and asynchronous payment integration between Makini University and Cellulant's Payment Gateway.
 
