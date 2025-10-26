@@ -13,6 +13,7 @@ const latencies = [];
 
 const sendWebhook = async (id) => {
   const transactionId = `STRESS_TXN_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+  const amountPaid = Math.floor(Math.random() * 10000) + 1000;
   const url = `${BASE_URL}/${STUDENT_ID}/${STATUS}?transactionId=${transactionId}`;
 
   const start = performance.now();
@@ -20,7 +21,7 @@ const sendWebhook = async (id) => {
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
+      body: JSON.stringify({amount: amountPaid}),
     });
     const elapsed = performance.now() - start;
     latencies.push(elapsed);
