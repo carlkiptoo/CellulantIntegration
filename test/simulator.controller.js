@@ -41,7 +41,7 @@ const sendMockRequest = async (path, body) => {
 
 export const simulateValidation = async (req, res, next) => {
   const { studentId } = req.params;
-  const amount = req.body.amount || 50000.0;
+  const amount = 50000.0;
 
   const payload = getMockValidationPayload(studentId, amount);
 
