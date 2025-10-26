@@ -71,7 +71,7 @@ cd makini_cellulant
 ### 2. Install Dependencies
 
 ```bash
-npm install
+npm install cors dotenv express pg node-fetch redis
 ```
 
 ### 3. Setup the Database
