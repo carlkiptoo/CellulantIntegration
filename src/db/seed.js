@@ -32,7 +32,7 @@ const studentData = [
     first_name: "Joan",
     last_name: "Zuria",
     enrollment_status: "ACTIVE",
-    current_balance: 100000.0,
+    current_balance: 150000.0,
     email: "joanzuria@gmail.com",
   },
   {
