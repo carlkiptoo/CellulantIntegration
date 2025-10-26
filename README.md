@@ -48,7 +48,6 @@ PORT=3000
 LOG_LEVEL=debug
 
 # Authentication
-CELLULANT_API_KEY=**********
 CELLULANT_BEARER_TOKEN=***********
 
 # Stress Testing Config
@@ -211,13 +210,38 @@ node stressTest.js
 **Starting Balance:** 150,000.00  
 **Payment Amount:** 50,000.00
 
-###  Send Webhook
+### 1. Send Validation Webhook
 
-**Endpoint:** `http://localhost:3000/debug/simulate/validation/S001`
+**Endpoint:** `http://localhost:3000/debug/simulate/validation/S004`
 
-**Worker Logs:**
+**Response**
+```json
+  {
+  "simulationStatus": "SENT_TO_VALIDATION_API",
+  "requestPayload": {
+    "studentId": "S004",
+    "amount": 50000,
+    "transactionRef": "MockRef_1761473320680"
+  },
+  "apiResponse": {
+    "status": "VALID",
+    "message": "Student is active and valid",
+    "studentName": "Joan Zuria",
+    "transactionRef": "MockRef_1761473320680"
+  },
+  "apiStatus": 200
+}
 ```
-[TXN_COMPLETE] Transaction TXN_DEMO_001 successfully recorded for student S001.
+**Note**
+The transactionRef generated during validation is crucial for tracking and ensuring idempotency in subsequent steps.
+
+### 2. Send Payment Notification Hook
+
+**Endpoint:** `[http://localhost:3000/debug/simulate/validation/S004](http://localhost:3000/debug/simulate/webhook/S004/success?transactionId=MockRef_1761473320680)`
+
+**Worker Logs**
+```
+[TXN_COMPLETE] Transaction MockRef_1761473320680 successfully recorded for student S004.
 ```
 
 ###  Check Updated Balance
@@ -230,12 +254,18 @@ SELECT current_balance FROM students WHERE student_id = 'S004';
 
 ###  Retry Same Webhook
 
+**Endpoint**
+`[http://localhost:3000/debug/simulate/validation/S004](http://localhost:3000/debug/simulate/webhook/S004/success?transactionId=MockRef_1761473320680)`
+
 **Worker logs:**
 ```
-[IDEMPOTENCY_BLOCK] Transaction TXN_DEMO_001 already processed.
+[IDEMPOTENCY_BLOCK] Transaction MockRef_1761473320680 already processed.
 ```
-
-**Balance remains unchanged** 
+**Check Balance**
+```sql
+SELECT current_balance FROM students WHERE student_id = 'S004';
+```
+**Balance remains unchanged** `100,00.00`
 
 
 ##  Key Features
