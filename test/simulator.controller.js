@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import config from "../config/index.js";
 
 const API_URL = `http://localhost:${config.port}/api/v1`;
-const API_KEY = process.env.CELLULANT_API_KEY;
+const BEARER_TOKEN = process.env.CELLULANT_BEARER_TOKEN;
 
 const getMockValidationPayload = (studentId, amount) => ({
   studentId,
@@ -27,7 +27,7 @@ const sendMockRequest = async (path, body) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-API-KEY": API_KEY,
+      "Authorization": `Bearer ${BEARER_TOKEN}`,
     },
     body: JSON.stringify(body),
   });
@@ -64,7 +64,7 @@ export const simulateWebhook = async (req, res, next) => {
     const customTxnId = req.query.transactionId;
     const payload = getMockWebhookPayload(
         studentId,
-        status.toUpperCase(),
+        status,
         'MPESA'
     );
 

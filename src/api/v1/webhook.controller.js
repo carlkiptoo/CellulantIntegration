@@ -3,7 +3,7 @@ import logger from '../../utils/logger.js';
 
 const WEBHOOK_QUEUE_KEY = 'payment-notification';
 
-export const handlePaymentNotification = async (req, resizeBy, next) => {
+export const handlePaymentNotification = async (req, res, next) => {
     const paymentData = req.body;
 
     if (!paymentData.transactionId || !paymentData.studentId || !paymentData.status) {
@@ -16,7 +16,7 @@ export const handlePaymentNotification = async (req, resizeBy, next) => {
 
     try {
         const payloadString = JSON.stringify(paymentData);
-        await redisClient.lpush(WEBHOOK_QUEUE_KEY, payloadString);
+        await redisClient.lPush(WEBHOOK_QUEUE_KEY, payloadString);
 
         logger.log(`Webhook notification received for transaction ID ${paymentData.transactionId}`, 'WEBHOOK_VALIDATION');
         return res.status(200).json({

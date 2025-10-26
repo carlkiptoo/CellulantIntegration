@@ -1,6 +1,6 @@
 import {connectDB} from '../../config/postgres.js';
 import {connectRedis} from '../../config/redis.js';
-
+import {startWebhookConsumer} from './webhook.consumer.js';
 import logger from '../utils/logger.js';
 
 const startWorker = async () => {
@@ -10,7 +10,7 @@ const startWorker = async () => {
         await connectDB(false);
         await connectRedis();
 
-        // startWebhookConsumer();
+        startWebhookConsumer();
     } catch (error) {
         logger.error(`Failed to start worker processes: ${error.message}`, 'WORKER');
         process.exit(1);
