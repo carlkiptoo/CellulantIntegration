@@ -1,12 +1,12 @@
 import { validateStudent } from "../../services/student.service.js";
 
 export const handleValidationRequest = async (req, res, next) => {
-    const {studentId, amount, transactionRef} = req.body;
+    const {studentId, transactionRef} = req.body;
 
-    if (!studentId || !amount) {
+    if (!studentId) {
         return res.status(400).json({
             status: 'INVALID',
-            message: 'Missing student ID or amount',
+            message: 'Missing student ID',
         });
     }
 
