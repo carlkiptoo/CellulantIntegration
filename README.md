@@ -48,7 +48,6 @@ PORT=3000
 LOG_LEVEL=debug
 
 # Authentication
-CELLULANT_API_KEY=**********
 CELLULANT_BEARER_TOKEN=***********
 
 # Stress Testing Config
