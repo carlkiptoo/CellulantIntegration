@@ -15,7 +15,6 @@ export const processNewPayment = async (paymentData) => {
   try {
     await client.query("BEGIN");
 
-    // Row-level lock to prevent concurrent balance modifications
     const studentRes = await client.query(
       `SELECT current_balance FROM students WHERE student_id = $1 FOR UPDATE`,
       [studentId]
@@ -25,7 +24,6 @@ export const processNewPayment = async (paymentData) => {
     }
     const currentBalance = parseFloat(studentRes.rows[0].current_balance);
 
-    // Idempotency check only for successful transactions
     if (normalizedStatus === "SUCCESS") {
       const processed = await isTransactionProcessed(transactionId);
       if (processed) {
@@ -35,14 +33,12 @@ export const processNewPayment = async (paymentData) => {
       }
     }
 
-    // Log the transaction in payments (all statuses)
     await client.query(
       `INSERT INTO payments (transaction_id, student_id, amount_paid, payment_method, status, payment_date, cellulant_ref)
        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
       [transactionId, studentId, amountPaid, paymentMethod, normalizedStatus, timestamp, transactionId]
     );
-
-    // Only deduct balance for successful transactions
+    
     if (normalizedStatus === "SUCCESS") {
       const newBalance = currentBalance - amountPaid;
       if (newBalance < 0) {

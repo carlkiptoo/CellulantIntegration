@@ -4,8 +4,6 @@ dotenv.config();
 export const verifyBearerToken = (req, res, next) => {
     const authHeader = req.get('Authorization');
    
-
-
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         console.warn(`Unauthorized attempt with invalid API key: ${authHeader}`);
         return res.status(401).json({
